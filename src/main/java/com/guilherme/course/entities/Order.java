@@ -31,23 +31,16 @@ public class Order implements Serializable {
 	
 	private Integer orderStatus;
 	
-	@OneToMany(mappedBy = "id.order")
-	private Set<OrderItem> items = new HashSet<>();
-	
 	@ManyToOne
 	@JoinColumn(name = "client_id")
 	private User client;
 	
+	@OneToMany(mappedBy = "id.order")
+	private Set<OrderItem> items = new HashSet<>();
+	
+	
 	public Order() {}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	public User getClient() {
-		return client;
-	}
-
+	
 	public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
 		this.id = id;
 		this.moment = moment;
@@ -79,11 +72,11 @@ public class Order implements Serializable {
 		this.moment = moment;
 	}
 
-	public User getUser() {
+	public User getClient() {
 		return client;
 	}
-
-	public void setUser(User client) {
+	
+	public void setClient(User client) {
 		this.client = client;
 	}
 	
