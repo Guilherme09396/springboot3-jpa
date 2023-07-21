@@ -12,6 +12,8 @@ import com.guilherme.course.repositories.UserRepository;
 import com.guilherme.course.services.exceptions.DatabaseException;
 import com.guilherme.course.services.exceptions.ResourceNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class UserService {
 
@@ -42,9 +44,13 @@ public class UserService {
 	}
 
 	public User update(Long id, User obj) {
-		User user = repository.getReferenceById(id);
-		updateUser(user, obj);
-		return repository.save(user);
+		try {
+			User user = repository.getReferenceById(id);
+			updateUser(user, obj);
+			return repository.save(user);
+		} catch(EntityNotFoundException e) {
+			throw new ResourceNotFoundException();
+		}
 	}
 
 	private void updateUser(User user, User obj) {
